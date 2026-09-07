@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insights &amp; Resources — Serisphere Center</title>
+<meta name="description" content="Practical, evidence-based articles on mental health and integrative wellness from the Serisphere care team.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .post{display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .2s;}
+  .post:hover{transform:translateY(-3px);}
+  .post .thumb{height:120px;background:conic-gradient(from 150deg,var(--teal),var(--sage),var(--plum));position:relative;}
+  .post .thumb .cat{position:absolute;left:14px;bottom:12px;background:var(--surface);color:var(--ink);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border-radius:999px;}
+  .post .body{padding:20px 22px 24px;}
+  .post .date{font-size:12.5px;color:var(--muted);}
+  .post h3{font-size:20px;margin:8px 0 8px;}
+  .post p{font-size:14.5px;color:var(--muted);}
+  .post .more{margin-top:14px;font-size:13.5px;font-weight:600;color:var(--teal);}
+  /* article */
+  #article{display:none;}
+  .article-wrap{max-width:720px;margin:0 auto;}
+  .article-wrap .cat{color:var(--teal);}
+  .article-wrap h1{font-size:clamp(30px,4.4vw,46px);margin:12px 0 12px;}
+  .article-meta{font-size:13.5px;color:var(--muted);margin-bottom:26px;}
+  .article-body p{font-size:17px;margin:16px 0;color:var(--ink);}
+  .article-body b{color:var(--ink);}
+  .back{display:inline-flex;gap:8px;align-items:center;font-weight:600;color:var(--teal);margin-bottom:22px;cursor:pointer;font-size:14.5px;}
+  .comments{margin-top:44px;border-top:1px solid var(--line);padding-top:30px;}
+  .comments h3{font-size:22px;margin-bottom:16px;}
+  .cmt{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px;}
+  .cmt .who{font-weight:700;font-size:14px;}
+  .cmt .when{font-size:12px;color:var(--muted);}
+  .cmt p{font-size:14.5px;margin-top:6px;}
+  @media (max-width:900px){.blog-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:600px){.blog-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18.5" fill="none" stroke="var(--ring)" stroke-width="1.4"/><circle cx="20" cy="20" r="6.4" fill="var(--teal)"/><circle cx="20" cy="1.5" r="2.6" fill="var(--plum)"/><circle cx="38.5" cy="24" r="2.2" fill="var(--clay)"/></svg>
+      <span>Serisphere</span>
+    </a>
+    <nav class="navlinks" id="nav">
+      <a href="index.html#services">Services</a>
+      <a href="index.html#team">Team</a>
+      <a href="blog.html" class="active">Insights</a>
+      <a href="flyers.html">Flyers</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="navtools">
+      <button class="themetog" id="themeBtn" aria-label="Toggle theme">◐</button>
+      <a href="index.html#contact" class="btn btn-primary btn-sm">Book</a>
+      <button class="burger" id="burger" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- LIST -->
+  <div id="list">
+    <div class="page-head">
+      <span class="eyebrow">Insights &amp; resources</span>
+      <h1>Ideas for a healthier mind and body</h1>
+      <p>Practical, evidence-based articles from our behavioral and integrative care team — no jargon, no judgment.</p>
+    </div>
+    <section>
+      <div class="blog-grid" id="blogGrid"></div>
+    </section>
+  </div>
+
+  <!-- ARTICLE -->
+  <article id="article">
+    <div class="article-wrap">
+      <div class="back" id="back">← All insights</div>
+      <span class="eyebrow cat" id="aCat"></span>
+      <h1 id="aTitle"></h1>
+      <div class="article-meta" id="aMeta"></div>
+      <div class="article-body" id="aBody"></div>
+
+      <div class="comments">
+        <h3>Comments</h3>
+        <div id="cmtList"></div>
+        <div class="card" style="padding:18px;margin-top:16px;">
+          <div class="field"><label for="cName">Name</label><input id="cName" placeholder="Your name"></div>
+          <div class="field"><label for="cText">Comment</label><textarea id="cText" placeholder="Share a thought (kept on this device for the demo)"></textarea></div>
+          <button class="btn btn-primary btn-sm" id="cSend">Post comment</button>
+          <p class="notice" style="margin-top:12px;">Demo only — comments are stored in your browser and are visible to you alone.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <a class="brand" href="index.html"><span>Serisphere</span></a>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <a href="index.html#services">Services</a><a href="blog.html">Insights</a><a href="flyers.html">Flyers</a><a href="index.html#contact">Contact</a><a href="admin.html">Admin</a>
+      </div>
+    </div>
+    <div class="disclaimer"><b>Design concept / demo.</b> Sample content for design review — not an official or live site. Articles are illustrative and not medical advice.</div>
+  </div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script>
+  var root=document.documentElement, tbtn=document.getElementById('themeBtn');
+  try{var s=localStorage.getItem('seri-theme');if(s)root.setAttribute('data-theme',s);}catch(e){}
+  tbtn.onclick=function(){var c=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');var n=c==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('seri-theme',n);}catch(e){}};
+  var burger=document.getElementById('burger'),nav=document.getElementById('nav');
+  burger.onclick=function(){nav.classList.toggle('open');};
+
+  function fmt(d){try{return new Date(d+'T00:00:00').toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});}catch(e){return d;}}
+  function esc(s){return (s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  var posts = SERI.getPosts();
+  var grid=document.getElementById('blogGrid');
+  posts.forEach(function(p){
+    var el=document.createElement('div');
+    el.className='post card';
+    el.innerHTML='<div class="thumb"><span class="cat">'+esc(p.cat)+'</span></div><div class="body"><div class="date">'+fmt(p.date)+'</div><h3>'+esc(p.title)+'</h3><p>'+esc(p.excerpt)+'</p><div class="more">Read article →</div></div>';
+    el.onclick=function(){location.hash='post-'+p.id;};
+    grid.appendChild(el);
+  });
+
+  var listEl=document.getElementById('list'), artEl=document.getElementById('article');
+  document.getElementById('back').onclick=function(){location.hash='';};
+
+  function renderArticle(id){
+    var p=posts.filter(function(x){return x.id===id;})[0];
+    if(!p){location.hash='';return;}
+    document.getElementById('aCat').textContent=p.cat;
+    document.getElementById('aTitle').textContent=p.title;
+    document.getElementById('aMeta').textContent=fmt(p.date)+' · '+(p.author||'Serisphere Care Team');
+    document.getElementById('aBody').innerHTML=p.body;
+    listEl.style.display='none'; artEl.style.display='block'; window.scrollTo(0,0);
+    renderComments(id);
+    document.getElementById('cSend').onclick=function(){
+      var n=document.getElementById('cName').value.trim()||'Anonymous';
+      var t=document.getElementById('cText').value.trim(); if(!t)return;
+      var list=SERI.getComments(id); list.push({who:n,text:t,when:new Date().toISOString()});
+      SERI.saveComments(id,list); document.getElementById('cText').value=''; document.getElementById('cName').value='';
+      renderComments(id);
+    };
+  }
+  function renderComments(id){
+    var c=SERI.getComments(id), box=document.getElementById('cmtList');
+    if(!c.length){box.innerHTML='<p class="notice">Be the first to comment.</p>';return;}
+    box.innerHTML=c.map(function(x){return '<div class="cmt"><span class="who">'+esc(x.who)+'</span> <span class="when">'+new Date(x.when).toLocaleDateString()+'</span><p>'+esc(x.text)+'</p></div>';}).join('');
+  }
+  function route(){
+    var h=location.hash;
+    if(h.indexOf('#post-')===0){renderArticle(h.slice(6));}
+    else{artEl.style.display='none';listEl.style.display='block';}
+  }
+  window.addEventListener('hashchange',route); route();
+
+  var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>

@@ -37,13 +37,13 @@
   }
 
   *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  html{scroll-behavior:smooth;overflow-x:clip;}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip;}
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
   section{padding:96px 0;}
-  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.08;letter-spacing:-.01em;}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.08;letter-spacing:-.01em;overflow-wrap:break-word;}
   .eyebrow{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);}
   .lead{font-size:20px;color:var(--muted);}
   .btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;padding:14px 24px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease,background .2s ease;}
@@ -74,6 +74,8 @@
   .hero::after{content:"";position:absolute;bottom:-260px;left:-160px;width:520px;height:520px;border-radius:50%;
     background:radial-gradient(circle at 50% 50%, color-mix(in srgb,var(--plum) 32%,transparent), transparent 64%);z-index:0;}
   .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;}
+  .hero .wrap>*{min-width:0;}
+  .mobonly{display:none;}
   .hero h1{font-size:clamp(40px,5.4vw,68px);margin:18px 0 20px;}
   .hero h1 em{font-style:italic;color:var(--teal);}
   .hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px;}
@@ -212,11 +214,20 @@
   @media (max-width:640px){
     section{padding:66px 0;}
     .navlinks{display:none;}
+    .navtools .btn-primary{display:none;}
     .burger{display:grid;place-items:center;}
     .navlinks.open{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;background:var(--paper);border-bottom:1px solid var(--line);padding:18px 24px;gap:8px;}
     .navlinks.open a{padding:8px 0;}
+    .navlinks.open .mobonly{display:inline-flex;justify-content:center;margin-top:10px;}
     .steps,.team-grid,.pillars,.row2,.foot-grid{grid-template-columns:1fr;}
     .cf1,.cf2,.cf3{display:none;}
+    .brand small{display:none;}
+    .hero{padding:56px 0 52px;}
+    .hero h1{font-size:34px;}
+    .hero-art{max-width:320px;}
+    .lead{font-size:18px;}
+    .band{padding:30px;}
+    .svc-col{padding:26px;}
   }
 </style>
 </head>
@@ -239,7 +250,10 @@
       <a href="#services">Services</a>
       <a href="#approach">Approach</a>
       <a href="#team">Team</a>
+      <a href="blog.html">Insights</a>
+      <a href="flyers.html">Flyers</a>
       <a href="#contact">Contact</a>
+      <a href="#contact" class="btn btn-primary mobonly">Book a consultation</a>
     </nav>
     <div class="navtools">
       <button class="themetog" id="themeBtn" aria-label="Toggle theme">◐</button>
@@ -476,8 +490,8 @@
         <p style="font-size:14px;color:var(--muted);max-width:320px;">Whole-person mental health and integrative wellness care — for the mind and the body, together.</p>
       </div>
       <div><h4>Care</h4><a href="#services">Psychiatry</a><a href="#services">Therapy</a><a href="#services">Integrative wellness</a><a href="#services">Child &amp; adolescent</a></div>
-      <div><h4>Practice</h4><a href="#about">About us</a><a href="#team">Our team</a><a href="#approach">Getting started</a><a href="#contact">Insurance</a></div>
-      <div><h4>Contact</h4><a href="tel:+15551234567">(555) 123-4567</a><a href="mailto:care@serisphere.example">care@serisphere.example</a><a href="#contact">Book online</a></div>
+      <div><h4>Practice</h4><a href="#about">About us</a><a href="#team">Our team</a><a href="blog.html">Insights &amp; blog</a><a href="flyers.html">Flyers</a></div>
+      <div><h4>Contact</h4><a href="tel:+15551234567">(555) 123-4567</a><a href="mailto:care@serisphere.example">care@serisphere.example</a><a href="#contact">Book online</a><a href="admin.html">Staff admin</a></div>
     </div>
     <div class="disclaimer">
       <b>Design concept / demo.</b> This is a sample website mock created for design review — not an official or live site. Content, names, hours, insurance, and contact details are placeholders and should be replaced with verified information before use. Not medical advice.
