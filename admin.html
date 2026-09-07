@@ -24,9 +24,10 @@
   .copyrow{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line);}
   .copyrow:first-child{border-top:none;}
   .copyrow span{font-size:14px;}
-  .list-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--surface);}
-  .list-item .t{font-weight:600;font-size:14.5px;} .list-item .m{font-size:12.5px;color:var(--muted);}
-  .row-actions{display:flex;gap:8px;flex:none;}
+  .list-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:var(--surface);flex-wrap:wrap;}
+  .list-item>div:first-child{min-width:0;flex:1 1 160px;}
+  .list-item .t{font-weight:600;font-size:14.5px;word-break:break-word;} .list-item .m{font-size:12.5px;color:var(--muted);word-break:break-word;}
+  .row-actions{display:flex;gap:8px;flex-wrap:wrap;}
   .fly-prev{aspect-ratio:4/5;border-radius:16px;color:#fff;padding:22px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg,var(--pv,#1f6b6b),#0d2f34);}
   .fly-prev h3{color:#fff;font-size:24px;}
   .fly-prev .ft{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);padding:5px 10px;border-radius:999px;width:max-content;}
@@ -34,6 +35,17 @@
   .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--petrol);color:var(--paper);padding:12px 20px;border-radius:999px;font-weight:600;font-size:14px;opacity:0;transition:opacity .2s;z-index:99;}
   .toast.show{opacity:1;}
   @media (max-width:820px){.grid2{grid-template-columns:1fr;}}
+  @media (max-width:600px){
+    .nav{flex-wrap:wrap;height:auto;padding:10px 0;gap:8px;}
+    .tabs{gap:6px;} .tab{flex:1 1 auto;text-align:center;padding:10px 12px;font-size:13px;}
+    .list-item{flex-direction:column;align-items:stretch;}
+    .row-actions{width:100%;}
+    .row-actions .btn{flex:1 1 auto;justify-content:center;}
+    .copyrow{flex-direction:column;align-items:flex-start;gap:8px;}
+    .copyrow .btn{align-self:flex-start;}
+    .kit-block{padding:18px;}
+    .fly-prev{max-width:100%!important;}
+  }
 </style>
 </head>
 <body>
@@ -76,6 +88,7 @@
     <div class="tab active" data-t="kit">Marketing Kit</div>
     <div class="tab" data-t="blog">Blog Manager</div>
     <div class="tab" data-t="flyers">Flyer Studio</div>
+    <div class="tab" data-t="resources">Videos &amp; Protocols</div>
     <div class="tab" data-t="settings">Settings</div>
   </div>
 
@@ -167,6 +180,49 @@
     </div>
   </div>
 
+  <!-- RESOURCES (videos + protocols) -->
+  <div class="panel" id="p-resources">
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:20px;margin-bottom:8px;">Videos</h3>
+        <p class="notice" style="margin-bottom:14px;">Add a video by pasting a link (YouTube, Vimeo, or a direct .mp4). It appears instantly on the Videos &amp; Protocols page. Works from any phone or computer.</p>
+        <div id="videoList"></div>
+        <button class="btn btn-ghost btn-sm" id="newVideo">+ New video</button>
+        <button class="btn btn-ghost btn-sm" id="resetVideos" style="margin-left:8px;">Reset</button>
+        <div class="card kit-block" style="margin-top:16px;">
+          <h3 id="videoFormTitle">Add / edit video</h3>
+          <input type="hidden" id="vId">
+          <div class="field"><label>Title</label><input id="vTitle"></div>
+          <div class="field"><label>Description</label><textarea id="vDesc" style="min-height:60px;"></textarea></div>
+          <div class="field"><label>Video link (YouTube / Vimeo / .mp4)</label><input id="vUrl" type="url" inputmode="url" placeholder="https://youtu.be/…"></div>
+          <button class="btn btn-primary btn-sm" id="saveVideo">Save video</button>
+          <button class="btn btn-ghost btn-sm" id="clearVideo">Clear</button>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:20px;margin-bottom:8px;">Protocols &amp; downloads</h3>
+        <p class="notice" style="margin-bottom:14px;">Upload a PDF/image from your device, or paste a link. Tap the file box on a phone to use your files or camera. (Demo: uploaded files are stored on this device — keep them under ~2&nbsp;MB; for large files, paste a link instead.)</p>
+        <div id="protoList"></div>
+        <button class="btn btn-ghost btn-sm" id="newProto">+ New protocol</button>
+        <button class="btn btn-ghost btn-sm" id="resetProtos" style="margin-left:8px;">Reset</button>
+        <div class="card kit-block" style="margin-top:16px;">
+          <h3 id="protoFormTitle">Add / edit protocol</h3>
+          <input type="hidden" id="prId"><input type="hidden" id="prFile"><input type="hidden" id="prFileName">
+          <div class="field"><label>Title</label><input id="prTitle"></div>
+          <div class="grid2" style="gap:12px;">
+            <div class="field"><label>Category</label><input id="prCat" placeholder="e.g. Self-help"></div>
+            <div class="field"><label>Link (optional)</label><input id="prUrl" type="url" inputmode="url" placeholder="https://…"></div>
+          </div>
+          <div class="field"><label>Description</label><textarea id="prDesc" style="min-height:60px;"></textarea></div>
+          <div class="field"><label>Upload file (PDF or image) — optional</label><input id="prUpload" type="file" accept=".pdf,application/pdf,image/*"></div>
+          <div id="prFileMsg" class="notice" style="display:none;margin-bottom:12px;"></div>
+          <button class="btn btn-primary btn-sm" id="saveProto">Save protocol</button>
+          <button class="btn btn-ghost btn-sm" id="clearProto">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SETTINGS -->
   <div class="panel" id="p-settings">
     <div class="grid2">
@@ -222,7 +278,7 @@
     t.classList.add('active');document.getElementById('p-'+t.dataset.t).classList.add('active');
   };});
 
-  function initAll(){ initKit(); initBlog(); initFlyers(); initSettings(); }
+  function initAll(){ initKit(); initBlog(); initFlyers(); initResources(); initSettings(); }
 
   /* ---- marketing kit ---- */
   var PALETTE=[['Petrol','#123f45','Primary'],['Teal','#1f6b6b','Accent'],['Sage','#8bb0a3','Secondary'],['Plum','#6a5c8f','Mind'],['Clay','#cf8663','Warm'],['Paper','#f4f2ec','Surface']];
@@ -365,6 +421,66 @@
       var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(f.id||'flyer')+'.png';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);toast('Flyer PNG downloaded');
     });
   }
+
+  /* ---- videos + protocols ---- */
+  function initResources(){ renderVideos(); clearVideoForm(); renderProtos(); clearProtoForm(); }
+  // videos
+  function renderVideos(){
+    var v=SERI.getVideos(), host=document.getElementById('videoList');host.innerHTML='';
+    v.forEach(function(x,i){
+      var el=document.createElement('div');el.className='list-item';
+      el.innerHTML='<div><div class="t">'+esc(x.title)+'</div><div class="m">'+(x.url?esc(x.url):'no link yet')+'</div></div>';
+      var act=document.createElement('div');act.className='row-actions';
+      var e=document.createElement('button');e.className='btn btn-ghost btn-sm';e.textContent='Edit';e.onclick=function(){editVideo(i);};
+      var d=document.createElement('button');d.className='btn btn-ghost btn-sm';d.textContent='Delete';d.onclick=function(){if(confirm('Delete this video?')){var a=SERI.getVideos();a.splice(i,1);SERI.saveVideos(a);renderVideos();toast('Deleted');}};
+      act.appendChild(e);act.appendChild(d);el.appendChild(act);host.appendChild(el);
+    });
+  }
+  function editVideo(i){var x=SERI.getVideos()[i];document.getElementById('vId').value=i;document.getElementById('vTitle').value=x.title;document.getElementById('vDesc').value=x.desc;document.getElementById('vUrl').value=x.url||'';window.scrollTo(0,0);}
+  function clearVideoForm(){['vId','vTitle','vDesc','vUrl'].forEach(function(id){document.getElementById(id).value='';});}
+  document.getElementById('newVideo').onclick=clearVideoForm;
+  document.getElementById('clearVideo').onclick=clearVideoForm;
+  document.getElementById('saveVideo').onclick=function(){
+    var t=document.getElementById('vTitle').value.trim();if(!t){toast('Title required');return;}
+    var obj={id:'v-'+(t.toLowerCase().replace(/[^a-z0-9]+/g,'-')||Date.now()),title:t,desc:document.getElementById('vDesc').value.trim(),url:document.getElementById('vUrl').value.trim()};
+    var arr=SERI.getVideos(),idx=document.getElementById('vId').value;
+    if(idx!==''){arr[parseInt(idx,10)]=obj;}else{arr.unshift(obj);}
+    SERI.saveVideos(arr);renderVideos();clearVideoForm();toast('Video saved');
+  };
+  document.getElementById('resetVideos').onclick=function(){if(confirm('Reset videos to defaults?')){SERI.saveVideos(SERI.DEFAULT_VIDEOS.slice());renderVideos();clearVideoForm();toast('Reset');}};
+  // protocols
+  function renderProtos(){
+    var v=SERI.getProtocols(), host=document.getElementById('protoList');host.innerHTML='';
+    v.forEach(function(x,i){
+      var el=document.createElement('div');el.className='list-item';
+      var badge=x.file?'file uploaded':(x.url?'link':'no file yet');
+      el.innerHTML='<div><div class="t">'+esc(x.title)+'</div><div class="m">'+esc(x.cat||'Resource')+' · '+badge+'</div></div>';
+      var act=document.createElement('div');act.className='row-actions';
+      var e=document.createElement('button');e.className='btn btn-ghost btn-sm';e.textContent='Edit';e.onclick=function(){editProto(i);};
+      var d=document.createElement('button');d.className='btn btn-ghost btn-sm';d.textContent='Delete';d.onclick=function(){if(confirm('Delete this protocol?')){var a=SERI.getProtocols();a.splice(i,1);SERI.saveProtocols(a);renderProtos();toast('Deleted');}};
+      act.appendChild(e);act.appendChild(d);el.appendChild(act);host.appendChild(el);
+    });
+  }
+  function editProto(i){var x=SERI.getProtocols()[i];document.getElementById('prId').value=i;document.getElementById('prTitle').value=x.title;document.getElementById('prCat').value=x.cat||'';document.getElementById('prUrl').value=x.url||'';document.getElementById('prDesc').value=x.desc||'';document.getElementById('prFile').value=x.file||'';document.getElementById('prFileName').value=x.fileName||'';showFileMsg(x.fileName?('Current file: '+x.fileName):'');window.scrollTo(0,0);}
+  function clearProtoForm(){['prId','prTitle','prCat','prUrl','prDesc','prFile','prFileName'].forEach(function(id){document.getElementById(id).value='';});document.getElementById('prUpload').value='';showFileMsg('');}
+  function showFileMsg(m){var el=document.getElementById('prFileMsg');if(m){el.textContent=m;el.style.display='block';}else{el.style.display='none';}}
+  document.getElementById('prUpload').addEventListener('change',function(e){
+    var f=e.target.files&&e.target.files[0];if(!f)return;
+    if(f.size>2*1024*1024){showFileMsg('That file is '+(Math.round(f.size/1024/1024*10)/10)+' MB — too large to store in the demo. Please paste a link instead, or use a smaller file.');document.getElementById('prFile').value='';document.getElementById('prFileName').value='';e.target.value='';return;}
+    var r=new FileReader();r.onload=function(){document.getElementById('prFile').value=r.result;document.getElementById('prFileName').value=f.name;showFileMsg('Attached: '+f.name);};r.readAsDataURL(f);
+  });
+  document.getElementById('newProto').onclick=clearProtoForm;
+  document.getElementById('clearProto').onclick=clearProtoForm;
+  document.getElementById('saveProto').onclick=function(){
+    var t=document.getElementById('prTitle').value.trim();if(!t){toast('Title required');return;}
+    var obj={id:'p-'+(t.toLowerCase().replace(/[^a-z0-9]+/g,'-')||Date.now()),title:t,cat:document.getElementById('prCat').value.trim()||'Resource',desc:document.getElementById('prDesc').value.trim(),url:document.getElementById('prUrl').value.trim(),file:document.getElementById('prFile').value,fileName:document.getElementById('prFileName').value};
+    var arr=SERI.getProtocols(),idx=document.getElementById('prId').value;
+    try{ if(idx!==''){arr[parseInt(idx,10)]=obj;}else{arr.unshift(obj);} SERI.saveProtocols(arr); }
+    catch(err){ toast('Storage full — use a link instead of a file'); return; }
+    if(!SERI.saveProtocols(arr)){ toast('Storage full — use a link for large files'); return; }
+    renderProtos();clearProtoForm();toast('Protocol saved');
+  };
+  document.getElementById('resetProtos').onclick=function(){if(confirm('Reset protocols to defaults?')){SERI.saveProtocols(SERI.DEFAULT_PROTOCOLS.slice());renderProtos();clearProtoForm();toast('Reset');}};
 
   /* ---- settings: contact + account ---- */
   function initSettings(){

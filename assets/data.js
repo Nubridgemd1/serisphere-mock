@@ -96,6 +96,19 @@
     { id:"mindfulness-group", accent:"plum", tag:"New group", title:"Mindfulness Group", subtitle:"Practical skills for calm and focus", body:"A guided, judgment-free group starting soon — space is limited.", cta:"Reserve your spot" }
   ];
 
+  const DEFAULT_VIDEOS = [
+    { id:"v-anxiety",    title:"Understanding Anxiety in 3 Minutes", desc:"A short, plain-language introduction to what anxiety is and when it's worth reaching out for support.", url:"" },
+    { id:"v-breathing",  title:"A 2-Minute Calming Breath",          desc:"A simple guided breathing exercise you can use anytime you feel overwhelmed or anxious.", url:"" },
+    { id:"v-first-visit",title:"What to Expect at Your First Visit",  desc:"A friendly walkthrough of your first appointment so you know exactly what to expect.", url:"" },
+    { id:"v-sleep",      title:"Better Sleep, Better Mood",           desc:"Evidence-based tips you can start tonight to improve your sleep and, with it, your mood.", url:"" }
+  ];
+  const DEFAULT_PROTOCOLS = [
+    { id:"p-intake", title:"New Patient Intake Guide",         cat:"Getting Started", desc:"What to bring and how to prepare for your first appointment at Serisphere.", url:"", file:"", fileName:"" },
+    { id:"p-anxiety",title:"Anxiety Self-Management Toolkit",   cat:"Self-help",       desc:"Practical grounding and coping strategies to use between sessions.", url:"", file:"", fileName:"" },
+    { id:"p-sleep",  title:"Sleep Hygiene Checklist",          cat:"Wellness",        desc:"A one-page checklist to help you build healthier, more consistent sleep habits.", url:"", file:"", fileName:"" },
+    { id:"p-crisis", title:"Crisis & Safety Resources",        cat:"Safety",          desc:"Important numbers and steps to take if you or someone you love is in crisis.", url:"", file:"", fileName:"" }
+  ];
+
   function read(key, fallback){ try{ var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
   function write(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); return true; }catch(e){ return false; } }
 
@@ -110,11 +123,17 @@
     DEFAULT_POSTS: DEFAULT_POSTS,
     DEFAULT_FLYERS: DEFAULT_FLYERS,
     DEFAULT_CONTACT: DEFAULT_CONTACT,
+    DEFAULT_VIDEOS: DEFAULT_VIDEOS,
+    DEFAULT_PROTOCOLS: DEFAULT_PROTOCOLS,
     ADMIN_CODE: "serisphere2026",
     getPosts:  function(){ return read("seri-posts",  DEFAULT_POSTS.slice()); },
     savePosts: function(p){ return write("seri-posts", p); },
     getFlyers: function(){ return read("seri-flyers", DEFAULT_FLYERS.slice()); },
     saveFlyers:function(f){ return write("seri-flyers", f); },
+    getVideos: function(){ return read("seri-videos", DEFAULT_VIDEOS.slice()); },
+    saveVideos:function(v){ return write("seri-videos", v); },
+    getProtocols: function(){ return read("seri-protocols", DEFAULT_PROTOCOLS.slice()); },
+    saveProtocols:function(p){ return write("seri-protocols", p); },
     getContact:function(){ var c=read("seri-contact",{}); return Object.assign({},DEFAULT_CONTACT,c); },
     saveContact:function(c){ return write("seri-contact", c); },
     getCred:   function(){ var c=read("seri-cred",{}); return Object.assign({},DEFAULT_CRED,c); },
