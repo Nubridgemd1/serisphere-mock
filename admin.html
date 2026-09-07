@@ -57,9 +57,10 @@
     <svg width="46" height="46" viewBox="0 0 40 40" style="margin:0 auto 14px;"><circle cx="20" cy="20" r="18.5" fill="none" stroke="var(--ring)" stroke-width="1.4"/><circle cx="20" cy="20" r="6.4" fill="var(--teal)"/><circle cx="20" cy="1.5" r="2.6" fill="var(--plum)"/><circle cx="38.5" cy="24" r="2.2" fill="var(--clay)"/></svg>
     <h2 style="font-size:24px;margin-bottom:6px;">Admin Studio</h2>
     <p style="color:var(--muted);font-size:14px;margin-bottom:18px;">Enter the practice passcode to manage content.</p>
-    <div class="field"><input id="code" type="password" placeholder="Passcode" style="text-align:center;"></div>
+    <div class="field"><input id="user" placeholder="Username" autocomplete="username" style="text-align:center;"></div>
+    <div class="field"><input id="code" type="password" placeholder="Password" autocomplete="current-password" style="text-align:center;"></div>
     <button class="btn btn-primary" id="enter" style="width:100%;justify-content:center;">Enter studio</button>
-    <p class="notice" style="margin-top:14px;">Demo passcode: <b>serisphere2026</b>. This is a client-side mock; changes are saved in this browser only.</p>
+    <p class="notice" style="margin-top:14px;">Demo login — username <b>admin</b> · password <b>serisphere2026</b>. Client-side mock; changes are saved in this browser only.</p>
   </div>
 </div>
 
@@ -75,6 +76,7 @@
     <div class="tab active" data-t="kit">Marketing Kit</div>
     <div class="tab" data-t="blog">Blog Manager</div>
     <div class="tab" data-t="flyers">Flyer Studio</div>
+    <div class="tab" data-t="settings">Settings</div>
   </div>
 
   <!-- MARKETING KIT -->
@@ -141,7 +143,8 @@
   <div class="panel" id="p-flyers">
     <div class="grid2">
       <div>
-        <h3 style="font-size:20px;margin-bottom:12px;">Flyers</h3>
+        <h3 style="font-size:20px;margin-bottom:8px;">Flyers</h3>
+        <p class="notice" style="margin-bottom:14px;">Tap <b>Share</b> to send a flyer image straight to WhatsApp, Instagram, Facebook and more (uses your device's share sheet); or <b>PNG</b> to download and post anywhere.</p>
         <div id="flyerList"></div>
         <button class="btn btn-ghost btn-sm" id="newFlyer">+ New flyer</button>
         <button class="btn btn-ghost btn-sm" id="resetFlyers" style="margin-left:8px;">Reset to defaults</button>
@@ -163,6 +166,31 @@
       </div>
     </div>
   </div>
+
+  <!-- SETTINGS -->
+  <div class="panel" id="p-settings">
+    <div class="grid2">
+      <div class="card kit-block">
+        <h3>Contact details</h3>
+        <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">Update the phone, email, address, and hours shown across the website.</p>
+        <div class="field"><label>Phone</label><input id="cPhone"></div>
+        <div class="field"><label>Email</label><input id="cEmail"></div>
+        <div class="field"><label>Address line 1</label><input id="cAddr1"></div>
+        <div class="field"><label>Address line 2</label><input id="cAddr2"></div>
+        <div class="field"><label>Hours</label><input id="cHours"></div>
+        <button class="btn btn-primary btn-sm" id="saveContactBtn">Save contact details</button>
+      </div>
+      <div class="card kit-block">
+        <h3>Admin account</h3>
+        <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">Change the username and password used to sign in here.</p>
+        <div class="field"><label>Username</label><input id="aUser" autocomplete="username"></div>
+        <div class="field"><label>New password</label><input id="aPass" type="password" autocomplete="new-password"></div>
+        <div class="field"><label>Confirm password</label><input id="aPass2" type="password" autocomplete="new-password"></div>
+        <button class="btn btn-primary btn-sm" id="saveCredBtn">Update login</button>
+        <p class="notice" style="margin-top:12px;">Stored on this device for the demo. Use the new details next time you sign in.</p>
+      </div>
+    </div>
+  </div>
 </main>
 
 <div class="toast" id="toast"></div>
@@ -180,8 +208,9 @@
   var gate=document.getElementById('gate'), app=document.getElementById('app'), logout=document.getElementById('logout');
   function isAuthed(){try{return sessionStorage.getItem('seri-admin')==='1';}catch(e){return false;}}
   function openApp(){gate.style.display='none';app.style.display='block';logout.style.display='inline-flex';initAll();}
-  function tryEnter(){var v=document.getElementById('code').value.trim();if(v===SERI.ADMIN_CODE){try{sessionStorage.setItem('seri-admin','1');}catch(e){}openApp();}else{toast('Incorrect passcode');}}
+  function tryEnter(){var u=document.getElementById('user').value.trim();var v=document.getElementById('code').value.trim();var cred=SERI.getCred();if(u===cred.user&&v===cred.pass){try{sessionStorage.setItem('seri-admin','1');}catch(e){}openApp();}else{toast('Incorrect username or password');}}
   document.getElementById('enter').onclick=tryEnter;
+  document.getElementById('user').addEventListener('keydown',function(e){if(e.key==='Enter')tryEnter();});
   document.getElementById('code').addEventListener('keydown',function(e){if(e.key==='Enter')tryEnter();});
   logout.onclick=function(){try{sessionStorage.removeItem('seri-admin');}catch(e){}location.reload();};
   if(isAuthed())openApp();
@@ -193,7 +222,7 @@
     t.classList.add('active');document.getElementById('p-'+t.dataset.t).classList.add('active');
   };});
 
-  function initAll(){ initKit(); initBlog(); initFlyers(); }
+  function initAll(){ initKit(); initBlog(); initFlyers(); initSettings(); }
 
   /* ---- marketing kit ---- */
   var PALETTE=[['Petrol','#123f45','Primary'],['Teal','#1f6b6b','Accent'],['Sage','#8bb0a3','Secondary'],['Plum','#6a5c8f','Mind'],['Clay','#cf8663','Warm'],['Paper','#f4f2ec','Surface']];
@@ -259,9 +288,11 @@
       var el=document.createElement('div');el.className='list-item';
       el.innerHTML='<div><div class="t">'+esc(x.title)+'</div><div class="m">'+esc(x.tag)+' · '+esc(x.accent)+'</div></div>';
       var act=document.createElement('div');act.className='row-actions';
+      var sh=document.createElement('button');sh.className='btn btn-primary btn-sm';sh.textContent='Share';sh.onclick=function(){shareFlyer(x);};
+      var pn=document.createElement('button');pn.className='btn btn-ghost btn-sm';pn.textContent='PNG';pn.onclick=function(){downloadFlyer(x);};
       var e=document.createElement('button');e.className='btn btn-ghost btn-sm';e.textContent='Edit';e.onclick=function(){editFlyer(i);};
       var d=document.createElement('button');d.className='btn btn-ghost btn-sm';d.textContent='Delete';d.onclick=function(){if(confirm('Delete this flyer?')){var a=SERI.getFlyers();a.splice(i,1);SERI.saveFlyers(a);renderFlyers();toast('Deleted');}};
-      act.appendChild(e);act.appendChild(d);el.appendChild(act);host.appendChild(el);
+      act.appendChild(sh);act.appendChild(pn);act.appendChild(e);act.appendChild(d);el.appendChild(act);host.appendChild(el);
     });
   }
   function editFlyer(i){var x=SERI.getFlyers()[i];document.getElementById('fId').value=i;document.getElementById('fTag').value=x.tag;document.getElementById('fAccent').value=x.accent;document.getElementById('fTitle').value=x.title;document.getElementById('fSub').value=x.subtitle;document.getElementById('fBody').value=x.body;document.getElementById('fCta').value=x.cta;updatePreview();window.scrollTo(0,0);}
@@ -285,6 +316,75 @@
     SERI.saveFlyers(arr);renderFlyers();clearFlyerForm();toast('Flyer saved');
   };
   document.getElementById('resetFlyers').onclick=function(){if(confirm('Reset all flyers to defaults?')){SERI.saveFlyers(SERI.DEFAULT_FLYERS.slice());renderFlyers();clearFlyerForm();toast('Reset');}};
+
+  /* ---- flyer image generation (canvas) ---- */
+  function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
+  function wrap(x,text,px,py,maxW,lh){var words=(text||'').split(' '),line='';for(var i=0;i<words.length;i++){var t=line+words[i]+' ';if(x.measureText(t).width>maxW&&line){x.fillText(line.trim(),px,py);line=words[i]+' ';py+=lh;}else line=t;}if(line.trim()){x.fillText(line.trim(),px,py);py+=lh;}return py;}
+  var CONTACT=function(){return SERI.getContact();};
+  function renderFlyerCanvas(f){
+    return document.fonts.ready.then(function(){
+      var W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;var x=cv.getContext('2d');
+      var acc=HEXP[f.accent]||HEXP.teal;
+      var g=x.createLinearGradient(0,0,W*0.5,H);g.addColorStop(0,acc);g.addColorStop(1,'#0d2f34');x.fillStyle=g;x.fillRect(0,0,W,H);
+      var rg=x.createRadialGradient(W*0.82,90,0,W*0.82,90,W*0.95);rg.addColorStop(0,'rgba(255,255,255,0.22)');rg.addColorStop(0.6,'rgba(255,255,255,0)');x.fillStyle=rg;x.fillRect(0,0,W,H);
+      var pad=96;
+      // tag pill
+      x.font='700 30px Inter, sans-serif';x.textBaseline='middle';var tg=(f.tag||'').toUpperCase(),tw=x.measureText(tg).width;
+      x.fillStyle='rgba(255,255,255,0.18)';rr(x,pad,96,tw+56,62,31);x.fill();x.fillStyle='#fff';x.fillText(tg,pad+28,96+32);
+      // emblem
+      x.strokeStyle='rgba(255,255,255,0.55)';x.lineWidth=3;x.beginPath();x.arc(W-pad-28,128,34,0,7);x.stroke();x.fillStyle='#fff';x.beginPath();x.arc(W-pad-28,128,11,0,7);x.fill();
+      // title
+      x.textBaseline='alphabetic';x.fillStyle='#fff';x.font='600 88px Fraunces, Georgia, serif';
+      var ty=wrap(x,f.title,pad,540,W-pad*2,96);
+      // subtitle
+      x.font='600 42px Inter, sans-serif';x.fillStyle='rgba(255,255,255,0.97)';ty+=28;ty=wrap(x,f.subtitle,pad,ty,W-pad*2,54);
+      // body
+      x.font='400 34px Inter, sans-serif';x.fillStyle='rgba(255,255,255,0.85)';ty+=22;wrap(x,f.body,pad,ty,W-pad*2,46);
+      // cta
+      x.fillStyle='#ffffff';rr(x,pad,H-268,W-pad*2,98,20);x.fill();
+      x.fillStyle='#123f45';x.font='700 40px Inter, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(f.cta||'Learn more',W/2,H-268+50);
+      // footer
+      var c=CONTACT();x.textBaseline='alphabetic';x.font='500 28px Inter, sans-serif';x.fillStyle='rgba(255,255,255,0.9)';x.textAlign='left';x.fillText('Serisphere Center',pad,H-96);x.textAlign='right';x.fillText(c.phone,W-pad,H-96);x.textAlign='left';
+      return cv;
+    });
+  }
+  function cvBlob(cv){return new Promise(function(res){cv.toBlob(res,'image/png',0.95);});}
+  function shareFlyer(f){
+    renderFlyerCanvas(f).then(cvBlob).then(function(blob){
+      var file=new File([blob],(f.id||'flyer')+'.png',{type:'image/png'});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){
+        navigator.share({files:[file],title:f.title,text:f.title+' — Serisphere Center'}).catch(function(){});
+      }else{
+        var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+        toast('Image saved — post it to any platform');
+      }
+    });
+  }
+  function downloadFlyer(f){
+    renderFlyerCanvas(f).then(cvBlob).then(function(blob){
+      var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(f.id||'flyer')+'.png';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href);},2000);toast('Flyer PNG downloaded');
+    });
+  }
+
+  /* ---- settings: contact + account ---- */
+  function initSettings(){
+    var c=SERI.getContact();
+    document.getElementById('cPhone').value=c.phone;document.getElementById('cEmail').value=c.email;
+    document.getElementById('cAddr1').value=c.addr1;document.getElementById('cAddr2').value=c.addr2;document.getElementById('cHours').value=c.hours;
+    var cr=SERI.getCred();document.getElementById('aUser').value=cr.user;
+  }
+  document.getElementById('saveContactBtn').onclick=function(){
+    SERI.saveContact({phone:document.getElementById('cPhone').value.trim(),email:document.getElementById('cEmail').value.trim(),addr1:document.getElementById('cAddr1').value.trim(),addr2:document.getElementById('cAddr2').value.trim(),hours:document.getElementById('cHours').value.trim()});
+    toast('Contact details saved');
+  };
+  document.getElementById('saveCredBtn').onclick=function(){
+    var u=document.getElementById('aUser').value.trim(),p=document.getElementById('aPass').value,p2=document.getElementById('aPass2').value;
+    if(!u){toast('Username required');return;}
+    if(p||p2){ if(p!==p2){toast('Passwords do not match');return;} if(p.length<4){toast('Password too short');return;} }
+    var cur=SERI.getCred();SERI.saveCred({user:u,pass:p?p:cur.pass});
+    document.getElementById('aPass').value='';document.getElementById('aPass2').value='';
+    toast('Login updated');
+  };
 </script>
 </body>
 </html>

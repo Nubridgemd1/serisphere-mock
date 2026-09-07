@@ -40,7 +40,47 @@
     { id:"starting-therapy", cat:"Getting Started", date:"2026-04-08",
       title:"Starting Therapy: What to Expect at Your First Visit",
       excerpt:"Nervous about your first appointment? Here's exactly how it usually goes.",
-      body:"<p>Your first visit is mostly a conversation. Your clinician will ask what brought you in, a bit about your history, and what you're hoping to change. There are no wrong answers, and you share only what you're comfortable sharing.</p><p>By the end, you'll usually leave with an initial sense of direction — a working plan and next steps. It's also your chance to see if it feels like a good fit; the relationship matters, and it's okay to say so.</p><p>Come as you are. You don't need to prepare a speech or have it all figured out — that's what we're here for.</p>" }
+      body:"<p>Your first visit is mostly a conversation. Your clinician will ask what brought you in, a bit about your history, and what you're hoping to change. There are no wrong answers, and you share only what you're comfortable sharing.</p><p>By the end, you'll usually leave with an initial sense of direction — a working plan and next steps. It's also your chance to see if it feels like a good fit; the relationship matters, and it's okay to say so.</p><p>Come as you are. You don't need to prepare a speech or have it all figured out — that's what we're here for.</p>" },
+    { id:"depression-more-than-sadness", cat:"Conditions", date:"2026-04-15",
+      title:"Depression: More Than Just Sadness",
+      excerpt:"Depression often shows up as numbness, fatigue, or irritability — not only tears. Knowing the fuller picture helps you catch it sooner.",
+      body:"<p>We tend to picture depression as sadness, but for many people it looks different: a flat, empty feeling; losing interest in things you used to enjoy; exhaustion that sleep doesn't fix; or a short fuse that surprises even you.</p><p>Physical signs count too — changes in appetite, aches without a clear cause, trouble concentrating. When several of these last most of the day for two weeks or more, it's worth a conversation.</p><p>Depression is highly treatable. Therapy, lifestyle changes, and sometimes medication help the vast majority of people feel like themselves again.</p>" },
+    { id:"adult-adhd", cat:"Conditions", date:"2026-04-22",
+      title:"Understanding Adult ADHD: Late Diagnosis and What Helps",
+      excerpt:"Many adults spent years thinking they were 'lazy' or 'scattered.' A late ADHD diagnosis can be a turning point.",
+      body:"<p>ADHD doesn't always look like a restless child. In adults it often shows up as chronic lateness, unfinished projects, trouble with focus and follow-through, or feeling perpetually overwhelmed by ordinary tasks.</p><p>A late diagnosis can be a relief — it reframes years of self-blame as a treatable difference in how your brain manages attention and motivation.</p><p>Support ranges from practical strategies and coaching to therapy and, when appropriate, medication. Most people find a combination works best.</p>" },
+    { id:"building-resilience", cat:"Wellness", date:"2026-04-29",
+      title:"Building Resilience: How to Bounce Back Stronger",
+      excerpt:"Resilience isn't about never struggling — it's about recovering. And it's a skill you can build.",
+      body:"<p>Resilient people aren't unbreakable; they've simply built habits that help them recover. The good news: those habits can be learned at any age.</p><p>Three that matter most: strong connections (people you can lean on), a sense of meaning (something bigger than the setback), and self-compassion (talking to yourself like you would a friend).</p><p>Start small. Each time you move through a hard moment without abandoning yourself, you're strengthening the muscle.</p>" },
+    { id:"power-of-routine", cat:"Wellness", date:"2026-05-06",
+      title:"Why Routine Is Quiet Medicine for Your Mind",
+      excerpt:"Predictable rhythms lower anxiety and steady mood. Here's how to build a routine that supports you.",
+      body:"<p>Uncertainty is tiring. A gentle daily routine removes dozens of small decisions and gives your nervous system something steady to rest on.</p><p>You don't need a rigid schedule — just a few reliable anchors: a consistent wake time, regular meals, movement, and a wind-down before bed. Those alone can meaningfully lift mood and focus.</p><p>Think of routine not as a cage, but as a trellis — a support structure that lets the rest of your life grow.</p>" },
+    { id:"grief-and-loss", cat:"Family", date:"2026-05-13",
+      title:"Grief Has No Timeline: Moving Through Loss",
+      excerpt:"There's no 'right' way or schedule for grief. What helps is support, patience, and permission to feel.",
+      body:"<p>Grief isn't a set of tidy stages you pass through and finish. It comes in waves, often when you least expect it, and it can resurface around anniversaries and milestones for years.</p><p>What helps isn't rushing it. Naming the loss, staying connected to others, and keeping gentle routines all give grief somewhere to go.</p><p>If grief becomes all-consuming — you can't function, or hopelessness sets in — that's a sign to reach out. You don't have to carry it alone.</p>" },
+    { id:"postpartum-mental-health", cat:"Family", date:"2026-05-20",
+      title:"Postpartum Mental Health: A Guide for New Parents",
+      excerpt:"The 'baby blues' are common — but persistent anxiety or depression deserves real support. You're not failing.",
+      body:"<p>The early weeks with a newborn are a whirlwind of joy and exhaustion. Mild mood swings in the first two weeks are common. But when low mood, anxiety, or intrusive thoughts persist beyond that, it may be postpartum depression or anxiety.</p><p>This is medical, not a character flaw — and it affects birthing and non-birthing parents alike. It's also very treatable.</p><p>If you're struggling, tell someone and reach out to a professional. Getting support is one of the most caring things you can do for your baby and yourself.</p>" },
+    { id:"workplace-stress", cat:"Wellness", date:"2026-05-27",
+      title:"Beating Workplace Stress Before It Beats You",
+      excerpt:"A demanding job doesn't have to cost your health. Practical ways to protect your energy and focus.",
+      body:"<p>Some work stress is normal. It becomes a problem when it never switches off — when you're answering messages at midnight, skipping breaks, and running on adrenaline.</p><p>Small boundaries protect you: a real lunch away from your desk, a hard stop at the end of the day, and short resets between tasks. Protecting recovery time isn't slacking — it's what makes sustained focus possible.</p><p>If stress is bleeding into your sleep, mood, or health, it's worth talking to someone before it becomes burnout.</p>" },
+    { id:"gut-brain-connection", cat:"Integrative", date:"2026-06-03",
+      title:"The Gut–Brain Connection: How Digestion Shapes Mood",
+      excerpt:"Your gut and brain are in constant conversation. Supporting one can help the other.",
+      body:"<p>The gut and brain talk to each other constantly through nerves, hormones, and the trillions of microbes living in your digestive tract. That's why stress can upset your stomach — and why gut health can influence mood.</p><p>You don't need a special diet. A variety of plants, fiber, fermented foods, and steady meals support a healthier gut microbiome, which research links to better mood and stress resilience.</p><p>It's not a cure-all, but it's a real, accessible lever — and it pairs well with the rest of your care.</p>" },
+    { id:"setting-boundaries", cat:"Wellness", date:"2026-06-10",
+      title:"Setting Boundaries Without Guilt",
+      excerpt:"Boundaries aren't walls — they're how you protect your energy and keep relationships healthy.",
+      body:"<p>If saying 'no' fills you with guilt, you're not alone. Many of us learned that being good means being endlessly available. But without boundaries, resentment and burnout quietly build.</p><p>A boundary can be simple and kind: 'I can't take that on right now,' or 'I need the evening to recharge.' You don't owe a lengthy justification.</p><p>Healthy boundaries actually strengthen relationships — they let you show up fully, instead of stretched thin and resentful.</p>" },
+    { id:"digital-wellness", cat:"Integrative", date:"2026-06-17",
+      title:"Digital Wellness: A Healthier Relationship With Your Screens",
+      excerpt:"Technology isn't the enemy — but how we use it matters. Small shifts that protect focus and calm.",
+      body:"<p>Screens aren't inherently bad, but endless scrolling can fragment attention, disrupt sleep, and quietly stoke anxiety through constant comparison.</p><p>Try a few gentle guardrails: no phone for the first and last 30 minutes of the day, notifications trimmed to what truly matters, and one screen-free ritual you protect daily.</p><p>The goal isn't to quit technology — it's to make sure you're using it, rather than it using you.</p>" }
   ];
 
   const DEFAULT_FLYERS = [
@@ -59,14 +99,26 @@
   function read(key, fallback){ try{ var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
   function write(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); return true; }catch(e){ return false; } }
 
+  const DEFAULT_CONTACT = {
+    phone:"(555) 123-4567", email:"care@serisphere.example",
+    addr1:"123 Wellness Way, Suite 200", addr2:"City, State ZIP",
+    hours:"Mon–Fri 8am–6pm · Sat by appointment"
+  };
+  const DEFAULT_CRED = { user:"admin", pass:"serisphere2026" };
+
   window.SERI = {
     DEFAULT_POSTS: DEFAULT_POSTS,
     DEFAULT_FLYERS: DEFAULT_FLYERS,
+    DEFAULT_CONTACT: DEFAULT_CONTACT,
     ADMIN_CODE: "serisphere2026",
     getPosts:  function(){ return read("seri-posts",  DEFAULT_POSTS.slice()); },
     savePosts: function(p){ return write("seri-posts", p); },
     getFlyers: function(){ return read("seri-flyers", DEFAULT_FLYERS.slice()); },
     saveFlyers:function(f){ return write("seri-flyers", f); },
+    getContact:function(){ var c=read("seri-contact",{}); return Object.assign({},DEFAULT_CONTACT,c); },
+    saveContact:function(c){ return write("seri-contact", c); },
+    getCred:   function(){ var c=read("seri-cred",{}); return Object.assign({},DEFAULT_CRED,c); },
+    saveCred:  function(c){ return write("seri-cred", c); },
     getComments: function(id){ return read("seri-cmt-"+id, []); },
     saveComments:function(id,c){ return write("seri-cmt-"+id, c); },
     resetAll: function(){ try{ Object.keys(localStorage).filter(k=>k.indexOf("seri-")===0).forEach(k=>localStorage.removeItem(k)); }catch(e){} },

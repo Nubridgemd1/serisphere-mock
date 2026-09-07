@@ -260,8 +260,7 @@
       <a href="#services">Services</a>
       <a href="#approach">Approach</a>
       <a href="#team">Team</a>
-      <a href="blog.html">Insights</a>
-      <a href="flyers.html">Flyers</a>
+      <a href="blog.html">Blog</a>
       <a href="#contact">Contact</a>
       <a href="#contact" class="btn btn-primary mobonly">Book a consultation</a>
     </nav>
@@ -449,10 +448,10 @@
     </div>
     <div class="contact-grid">
       <div class="reveal">
-        <div class="info-item"><div class="ic">📍</div><div><h3>Visit</h3><p>[123 Wellness Way, Suite 200]<br>[City, State ZIP]</p></div></div>
-        <div class="info-item"><div class="ic">📞</div><div><h3>Call or text</h3><p><a href="tel:+15551234567">(555) 123-4567</a></p></div></div>
-        <div class="info-item"><div class="ic">✉️</div><div><h3>Email</h3><p><a href="mailto:care@serisphere.example">care@serisphere.example</a></p></div></div>
-        <div class="info-item"><div class="ic">🕐</div><div><h3>Hours</h3><p>Mon–Fri 8am–6pm · Sat by appointment<br>Telehealth available statewide</p></div></div>
+        <div class="info-item"><div class="ic">📍</div><div><h3>Visit</h3><p data-c="addr">123 Wellness Way, Suite 200<br>City, State ZIP</p></div></div>
+        <div class="info-item"><div class="ic">📞</div><div><h3>Call or text</h3><p><a href="tel:+15551234567" data-c="phone">(555) 123-4567</a></p></div></div>
+        <div class="info-item"><div class="ic">✉️</div><div><h3>Email</h3><p><a href="mailto:care@serisphere.example" data-c="email">care@serisphere.example</a></p></div></div>
+        <div class="info-item"><div class="ic">🕐</div><div><h3>Hours</h3><p><span data-c="hours">Mon–Fri 8am–6pm · Sat by appointment</span><br>Telehealth available statewide</p></div></div>
         <div class="info-item" style="border-bottom:none;"><div class="ic">🚨</div><div><h3>In crisis?</h3><p>If this is an emergency, call <b>911</b> or dial <b>988</b> (Suicide &amp; Crisis Lifeline).</p></div></div>
       </div>
       <form id="bookForm" class="reveal">
@@ -500,8 +499,8 @@
         <p style="font-size:14px;color:var(--muted);max-width:320px;">Whole-person mental health and integrative wellness care — for the mind and the body, together.</p>
       </div>
       <div><h4>Care</h4><a href="#services">Psychiatry</a><a href="#services">Therapy</a><a href="#services">Integrative wellness</a><a href="#services">Child &amp; adolescent</a></div>
-      <div><h4>Practice</h4><a href="#about">About us</a><a href="#team">Our team</a><a href="blog.html">Insights &amp; blog</a><a href="flyers.html">Flyers</a></div>
-      <div><h4>Contact</h4><a href="tel:+15551234567">(555) 123-4567</a><a href="mailto:care@serisphere.example">care@serisphere.example</a><a href="#contact">Book online</a><a href="admin.html">Staff admin</a></div>
+      <div><h4>Practice</h4><a href="#about">About us</a><a href="#team">Our team</a><a href="blog.html">Blog</a><a href="#contact">Getting started</a></div>
+      <div><h4>Contact</h4><a href="tel:+15551234567" data-c="phone">(555) 123-4567</a><a href="mailto:care@serisphere.example" data-c="email">care@serisphere.example</a><a href="#contact">Book online</a><a href="admin.html">Staff admin</a></div>
     </div>
     <div class="disclaimer">
       <b>Design concept / demo.</b> This is a sample website mock created for design review — not an official or live site. Content, names, hours, insurance, and contact details are placeholders and should be replaced with verified information before use. Not medical advice.
@@ -513,9 +512,21 @@
   </div>
 </footer>
 
+<script src="assets/data.js"></script>
 <script>
   // year
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // apply admin-saved contact details (per-device demo override)
+  (function(){
+    try{
+      var c = window.SERI ? SERI.getContact() : null; if(!c) return;
+      document.querySelectorAll('[data-c="phone"]').forEach(function(el){ el.textContent=c.phone; if(el.tagName==='A') el.href='tel:'+c.phone.replace(/[^0-9+]/g,''); });
+      document.querySelectorAll('[data-c="email"]').forEach(function(el){ el.textContent=c.email; if(el.tagName==='A') el.href='mailto:'+c.email; });
+      document.querySelectorAll('[data-c="addr"]').forEach(function(el){ el.innerHTML=(c.addr1||'')+'<br>'+(c.addr2||''); });
+      document.querySelectorAll('[data-c="hours"]').forEach(function(el){ el.textContent=c.hours; });
+    }catch(e){}
+  })();
 
   // mobile nav
   var burger = document.getElementById('burger'), nav = document.getElementById('nav');
