@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Serisphere Center for Behavioral &amp; Integrative Health</title>
+<meta name="description" content="Whole-person care for mind and body — psychiatry, therapy, and integrative wellness. In-person and telehealth. Now accepting new patients.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --petrol:#123f45; --teal:#1f6b6b; --sage:#8bb0a3; --sage-soft:#cfe0d8;
+    --plum:#6a5c8f; --plum-soft:#e3ddef; --clay:#cf8663;
+    --paper:#f4f2ec; --surface:#ffffff; --ink:#182726; --muted:#5c716d;
+    --line:#e2ddd2; --ring:rgba(18,63,69,.14);
+    --shadow:0 18px 44px rgba(18,63,69,.10);
+    --r:18px; --maxw:1140px;
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --petrol:#7fd0c7; --teal:#63b8b3; --sage:#7ba596; --sage-soft:#1f3b39;
+      --plum:#b3a6d6; --plum-soft:#2a2640; --clay:#e0a180;
+      --paper:#0e1c1c; --surface:#132726; --ink:#e8efec; --muted:#a6bcb6;
+      --line:#22403e; --ring:rgba(127,208,199,.20);
+      --shadow:0 18px 44px rgba(0,0,0,.38);
+    }
+  }
+  :root[data-theme="dark"]{
+    --petrol:#7fd0c7; --teal:#63b8b3; --sage:#7ba596; --sage-soft:#1f3b39;
+    --plum:#b3a6d6; --plum-soft:#2a2640; --clay:#e0a180;
+    --paper:#0e1c1c; --surface:#132726; --ink:#e8efec; --muted:#a6bcb6;
+    --line:#22403e; --ring:rgba(127,208,199,.20);
+    --shadow:0 18px 44px rgba(0,0,0,.38);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  section{padding:96px 0;}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.08;letter-spacing:-.01em;}
+  .eyebrow{font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);}
+  .lead{font-size:20px;color:var(--muted);}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;padding:14px 24px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease,background .2s ease;}
+  .btn-primary{background:var(--petrol);color:var(--paper);}
+  :root[data-theme="dark"] .btn-primary,:root:not([data-theme="light"]) .btn-primary{color:#0e1c1c;}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-primary{color:#0e1c1c;}}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+  .btn-ghost{border-color:var(--ring);color:var(--ink);background:transparent;}
+  .btn-ghost:hover{border-color:var(--teal);color:var(--teal);}
+
+  /* ============ HEADER ============ */
+  header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .brand{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:-.01em;}
+  .brand small{display:block;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:1px;}
+  .orbit{flex:none;}
+  .navlinks{display:flex;align-items:center;gap:30px;}
+  .navlinks a{font-size:15px;font-weight:500;color:var(--muted);transition:color .15s;}
+  .navlinks a:hover{color:var(--ink);}
+  .navtools{display:flex;align-items:center;gap:12px;}
+  .themetog{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;display:grid;place-items:center;font-size:16px;}
+  .burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--ink);cursor:pointer;font-size:20px;}
+
+  /* ============ HERO ============ */
+  .hero{position:relative;padding:104px 0 88px;overflow:hidden;}
+  .hero::before{content:"";position:absolute;top:-220px;right:-180px;width:640px;height:640px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, color-mix(in srgb,var(--sage) 55%,transparent), transparent 62%);z-index:0;}
+  .hero::after{content:"";position:absolute;bottom:-260px;left:-160px;width:520px;height:520px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, color-mix(in srgb,var(--plum) 32%,transparent), transparent 64%);z-index:0;}
+  .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;}
+  .hero h1{font-size:clamp(40px,5.4vw,68px);margin:18px 0 20px;}
+  .hero h1 em{font-style:italic;color:var(--teal);}
+  .hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px;}
+  .hero .assure{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;font-size:14px;color:var(--muted);}
+  .hero .assure span{display:flex;align-items:center;gap:8px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);flex:none;}
+  .dot.plum{background:var(--plum);}
+  .dot.clay{background:var(--clay);}
+
+  /* hero art */
+  .hero-art{position:relative;aspect-ratio:1/1;display:grid;place-items:center;}
+  .sphere{position:relative;width:88%;aspect-ratio:1/1;border-radius:50%;
+    background:
+      radial-gradient(circle at 34% 30%, color-mix(in srgb,var(--surface) 92%,transparent), transparent 46%),
+      conic-gradient(from 200deg, var(--teal), var(--sage), var(--plum), var(--teal));
+    box-shadow:var(--shadow), inset 0 0 60px rgba(255,255,255,.18);}
+  .sphere::after{content:"";position:absolute;inset:14%;border-radius:50%;background:var(--surface);opacity:.86;}
+  .orbit-ring{position:absolute;inset:-6%;border-radius:50%;border:1.5px dashed var(--ring);}
+  .orbit-ring.two{inset:-16%;border-style:solid;}
+  .chip-float{position:absolute;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 15px;box-shadow:var(--shadow);font-size:13px;font-weight:600;display:flex;align-items:center;gap:9px;}
+  .chip-float small{display:block;font-weight:500;color:var(--muted);font-size:11.5px;}
+  .cf1{top:6%;left:-6%;} .cf2{bottom:10%;right:-8%;} .cf3{bottom:34%;left:-10%;}
+
+  /* ============ MARQUEE / TRUST ============ */
+  .trust{background:var(--petrol);color:var(--paper);padding:20px 0;}
+  :root[data-theme="dark"] .trust,:root:not([data-theme="light"]) .trust{color:#0e1c1c;}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .trust{color:#0e1c1c;}}
+  .trust .wrap{display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:center;align-items:center;font-size:14.5px;font-weight:500;}
+  .trust b{font-weight:700;}
+
+  /* ============ SECTION HELPERS ============ */
+  .sec-head{max-width:680px;margin-bottom:52px;}
+  .sec-head h2{font-size:clamp(30px,3.6vw,44px);margin:14px 0 14px;}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+
+  /* about */
+  .about{background:var(--surface);}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:8px;}
+  .pillar{border:1px solid var(--line);border-radius:var(--r);padding:22px;background:var(--paper);}
+  .pillar .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;margin-bottom:12px;background:var(--sage-soft);}
+  .pillar h3{font-size:19px;margin-bottom:6px;font-family:var(--sans);font-weight:700;letter-spacing:0;}
+  .pillar p{font-size:14.5px;color:var(--muted);}
+
+  /* services split */
+  .svc-split{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  .svc-col{border-radius:22px;padding:34px;border:1px solid var(--line);background:var(--surface);}
+  .svc-col.mind{background:linear-gradient(180deg,var(--plum-soft),var(--surface));}
+  .svc-col.body{background:linear-gradient(180deg,var(--sage-soft),var(--surface));}
+  .svc-col .tag{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;}
+  .svc-col.mind .tag{color:var(--plum);}
+  .svc-col.body .tag{color:var(--teal);}
+  .svc-col h3{font-size:26px;margin-bottom:18px;}
+  .svc-list{list-style:none;display:flex;flex-direction:column;gap:2px;}
+  .svc-list li{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line);}
+  .svc-list li:first-child{border-top:none;}
+  .svc-list .n{font-family:var(--serif);font-size:15px;color:var(--muted);width:26px;flex:none;}
+  .svc-list b{font-weight:600;font-size:16px;}
+  .svc-list p{font-size:14px;color:var(--muted);margin-top:2px;}
+
+  /* conditions chips */
+  .conditions{background:var(--surface);}
+  .chips{display:flex;flex-wrap:wrap;gap:12px;}
+  .chips span{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 18px;font-size:14.5px;font-weight:500;}
+
+  /* approach steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;counter-reset:step;}
+  .step{position:relative;padding-top:20px;}
+  .step .num{font-family:var(--serif);font-size:40px;color:var(--teal);opacity:.5;line-height:1;}
+  .step h3{font-size:19px;font-family:var(--sans);font-weight:700;letter-spacing:0;margin:8px 0 6px;}
+  .step p{font-size:14.5px;color:var(--muted);}
+
+  /* team */
+  .team{background:var(--surface);}
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  .member{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--paper);}
+  .member .ph{aspect-ratio:4/3;display:grid;place-items:center;font-family:var(--serif);font-size:54px;color:var(--surface);
+    background:conic-gradient(from 160deg,var(--teal),var(--sage),var(--plum));}
+  .member .body{padding:20px 22px;}
+  .member h3{font-size:20px;margin-bottom:2px;}
+  .member .role{font-size:13.5px;font-weight:600;color:var(--teal);letter-spacing:.02em;}
+  .member p{font-size:14px;color:var(--muted);margin-top:10px;}
+
+  /* quote */
+  .quote{text-align:center;}
+  .quote blockquote{font-family:var(--serif);font-size:clamp(24px,3.2vw,36px);line-height:1.3;max-width:900px;margin:0 auto;font-style:italic;}
+  .quote .who{margin-top:22px;font-size:14px;color:var(--muted);font-weight:600;letter-spacing:.02em;}
+
+  /* insurance / cta band */
+  .band{background:var(--petrol);color:var(--paper);border-radius:26px;padding:52px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;}
+  :root[data-theme="dark"] .band,:root:not([data-theme="light"]) .band{color:#0e1c1c;}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .band{color:#0e1c1c;}}
+  .band h2{font-size:clamp(28px,3.4vw,40px);color:inherit;}
+  .band p{opacity:.85;margin-top:12px;}
+  .band .ins{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;}
+  .band .ins span{border:1px solid color-mix(in srgb,var(--paper) 34%,transparent);border-radius:10px;padding:9px 14px;font-size:13.5px;font-weight:600;}
+
+  /* contact */
+  .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;}
+  .info-item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
+  .info-item .ic{width:44px;height:44px;flex:none;border-radius:12px;display:grid;place-items:center;background:var(--sage-soft);font-size:20px;}
+  .info-item h3{font-size:16px;font-family:var(--sans);font-weight:700;letter-spacing:0;margin-bottom:2px;}
+  .info-item p,.info-item a{font-size:14.5px;color:var(--muted);}
+  form{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:var(--shadow);}
+  .field{margin-bottom:16px;}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  input,select,textarea{width:100%;font-family:inherit;font-size:15px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--ring);}
+  textarea{resize:vertical;min-height:110px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-note{font-size:12.5px;color:var(--muted);margin-top:10px;}
+
+  /* footer */
+  footer{background:var(--surface);border-top:1px solid var(--line);padding:60px 0 30px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px;}
+  .foot-grid h4{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:14px;}
+  .foot-grid a{display:block;font-size:14.5px;color:var(--muted);padding:5px 0;}
+  .foot-grid a:hover{color:var(--ink);}
+  .foot-bottom{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);}
+  .disclaimer{background:var(--paper);border:1px dashed var(--line);border-radius:14px;padding:14px 18px;font-size:12.5px;color:var(--muted);margin-top:22px;}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}html{scroll-behavior:auto;}}
+
+  /* responsive */
+  @media (max-width:980px){
+    .hero .wrap,.about-grid,.svc-split,.contact-grid,.band{grid-template-columns:1fr;}
+    .hero-art{max-width:440px;margin:0 auto;}
+    .steps{grid-template-columns:1fr 1fr;}
+    .team-grid{grid-template-columns:1fr 1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .band{padding:40px;}
+  }
+  @media (max-width:640px){
+    section{padding:66px 0;}
+    .navlinks{display:none;}
+    .burger{display:grid;place-items:center;}
+    .navlinks.open{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;background:var(--paper);border-bottom:1px solid var(--line);padding:18px 24px;gap:8px;}
+    .navlinks.open a{padding:8px 0;}
+    .steps,.team-grid,.pillars,.row2,.foot-grid{grid-template-columns:1fr;}
+    .cf1,.cf2,.cf3{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <svg class="orbit" width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" fill="none" stroke="var(--ring)" stroke-width="1.4"/>
+        <circle cx="20" cy="20" r="6.4" fill="var(--teal)"/>
+        <circle cx="20" cy="1.5" r="2.6" fill="var(--plum)"/>
+        <circle cx="38.5" cy="24" r="2.2" fill="var(--clay)"/>
+      </svg>
+      <span>Serisphere<small>Behavioral &amp; Integrative Health</small></span>
+    </a>
+    <nav class="navlinks" id="nav">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#approach">Approach</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="navtools">
+      <button class="themetog" id="themeBtn" aria-label="Toggle theme">◐</button>
+      <a href="#contact" class="btn btn-primary" style="padding:11px 20px;">Book a consultation</a>
+      <button class="burger" id="burger" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<span id="top"></span>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Whole-person care</span>
+      <h1>Care for the <em>mind</em> and the <em>body</em>, in one place.</h1>
+      <p class="lead">Serisphere brings psychiatry, therapy, and integrative wellness together — so your care treats the whole you, not just a symptom.</p>
+      <div class="cta-row">
+        <a href="#contact" class="btn btn-primary">Request an appointment →</a>
+        <a href="#services" class="btn btn-ghost">Explore our services</a>
+      </div>
+      <div class="assure">
+        <span><span class="dot"></span> In-person &amp; telehealth</span>
+        <span><span class="dot plum"></span> Now accepting new patients</span>
+        <span><span class="dot clay"></span> Most insurance accepted</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="orbit-ring two"></div>
+      <div class="orbit-ring"></div>
+      <div class="sphere"></div>
+      <div class="chip-float cf1"><span class="dot plum"></span> Psychiatry <small>&amp; med management</small></div>
+      <div class="chip-float cf2"><span class="dot"></span> Integrative <small>nutrition &amp; lifestyle</small></div>
+      <div class="chip-float cf3"><span class="dot clay"></span> Therapy <small>individual &amp; family</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAR ============ -->
+<div class="trust">
+  <div class="wrap">
+    <span><b>15+</b> years of combined clinical experience</span>
+    <span><b>Ages 6+</b> children, teens &amp; adults</span>
+    <span><b>Same-week</b> consultations available</span>
+    <span><b>Confidential</b> &amp; judgment-free</span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <span class="eyebrow">Our philosophy</span>
+      <h2 style="font-size:clamp(30px,3.6vw,44px);margin:14px 0 16px;">Behavioral science and integrative wellness, working together.</h2>
+      <p class="lead" style="font-size:18px;">Mental health rarely lives in isolation. Sleep, nutrition, stress, relationships, and biology all shape how we feel. At Serisphere, our clinicians combine evidence-based behavioral care with integrative approaches to build a plan that fits your life — and moves at your pace.</p>
+    </div>
+    <div class="pillars reveal">
+      <div class="pillar"><div class="ic">🧠</div><h3>Evidence-based</h3><p>Therapies and treatments grounded in current clinical research.</p></div>
+      <div class="pillar"><div class="ic">🌿</div><h3>Integrative</h3><p>Lifestyle, nutrition, and mindfulness woven into your care.</p></div>
+      <div class="pillar"><div class="ic">🤝</div><h3>Collaborative</h3><p>You&rsquo;re a partner in every decision about your treatment.</p></div>
+      <div class="pillar"><div class="ic">💬</div><h3>Accessible</h3><p>Flexible in-person and secure telehealth appointments.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">What we offer</span>
+      <h2>Two sides of care, fully integrated</h2>
+      <p class="lead">From diagnosis and medication to nutrition and stress resilience — a connected team supports every part of your wellbeing.</p>
+    </div>
+    <div class="svc-split">
+      <div class="svc-col mind reveal">
+        <span class="tag"><span class="dot plum"></span> Behavioral Health</span>
+        <h3>Mind</h3>
+        <ul class="svc-list">
+          <li><span class="n">01</span><div><b>Psychiatric evaluation &amp; medication management</b><p>Thorough assessment and careful, ongoing medication care.</p></div></li>
+          <li><span class="n">02</span><div><b>Individual therapy</b><p>CBT, DBT-informed, and trauma-focused approaches.</p></div></li>
+          <li><span class="n">03</span><div><b>Child &amp; adolescent care</b><p>Support for young people and their families (ages 6+).</p></div></li>
+          <li><span class="n">04</span><div><b>Couples &amp; family therapy</b><p>Rebuild communication, connection, and trust.</p></div></li>
+          <li><span class="n">05</span><div><b>Group therapy</b><p>Guided peer support for shared challenges.</p></div></li>
+        </ul>
+      </div>
+      <div class="svc-col body reveal">
+        <span class="tag"><span class="dot"></span> Integrative Health</span>
+        <h3>Body</h3>
+        <ul class="svc-list">
+          <li><span class="n">01</span><div><b>Nutrition &amp; lifestyle counseling</b><p>Food, movement, and habits that support mental health.</p></div></li>
+          <li><span class="n">02</span><div><b>Mindfulness &amp; stress resilience</b><p>Practical tools for anxiety, focus, and burnout.</p></div></li>
+          <li><span class="n">03</span><div><b>Sleep &amp; wellness optimization</b><p>Address the physical roots of how you feel.</p></div></li>
+          <li><span class="n">04</span><div><b>Health &amp; wellness coaching</b><p>Accountable, goal-based support between visits.</p></div></li>
+          <li><span class="n">05</span><div><b>Whole-person care planning</b><p>One coordinated plan across your whole team.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONDITIONS ============ -->
+<section class="conditions">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">How we help</span>
+      <h2>Support for what you&rsquo;re carrying</h2>
+    </div>
+    <div class="chips reveal">
+      <span>Anxiety</span><span>Depression</span><span>ADHD</span><span>Trauma &amp; PTSD</span>
+      <span>Bipolar disorder</span><span>Stress &amp; burnout</span><span>Grief &amp; loss</span>
+      <span>Sleep difficulties</span><span>Life transitions</span><span>Relationship strain</span>
+      <span>OCD</span><span>Panic</span><span>Perinatal mental health</span><span>Chronic-illness coping</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPROACH ============ -->
+<section id="approach">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Getting started</span>
+      <h2>Care in four simple steps</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="num">01</div><h3>Reach out</h3><p>Send a request or call us — we&rsquo;ll answer your questions, no pressure.</p></div>
+      <div class="step reveal"><div class="num">02</div><h3>Get matched</h3><p>We pair you with the clinician who best fits your needs and goals.</p></div>
+      <div class="step reveal"><div class="num">03</div><h3>Build your plan</h3><p>A personalized, whole-person plan across behavioral and integrative care.</p></div>
+      <div class="step reveal"><div class="num">04</div><h3>Move forward</h3><p>Ongoing support, adjusted as you grow — in person or by telehealth.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM ============ -->
+<section class="team" id="team">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Your care team</span>
+      <h2>Clinicians who see the whole picture</h2>
+      <p class="lead">A multidisciplinary team of psychiatric and integrative providers.</p>
+    </div>
+    <div class="team-grid">
+      <div class="member reveal"><div class="ph">S</div><div class="body"><h3>[Clinician Name], MD</h3><div class="role">Psychiatrist &amp; Medical Director</div><p>Adult and adolescent psychiatry with an integrative, collaborative approach to medication and lifestyle.</p></div></div>
+      <div class="member reveal"><div class="ph">L</div><div class="body"><h3>[Clinician Name], LCSW</h3><div class="role">Lead Therapist</div><p>Trauma-informed individual and family therapy, specializing in anxiety and life transitions.</p></div></div>
+      <div class="member reveal"><div class="ph">R</div><div class="body"><h3>[Clinician Name], RDN</h3><div class="role">Integrative Nutrition &amp; Wellness</div><p>Nutrition, sleep, and stress-resilience coaching that supports mental health.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUOTE ============ -->
+<section class="quote">
+  <div class="wrap reveal">
+    <blockquote>&ldquo;For the first time, my care actually felt connected — my therapist, my prescriber, and my wellness plan were all on the same page.&rdquo;</blockquote>
+    <div class="who">— Sample patient reflection · illustrative</div>
+  </div>
+</section>
+
+<!-- ============ INSURANCE BAND ============ -->
+<section>
+  <div class="wrap">
+    <div class="band reveal">
+      <div>
+        <h2>Wondering if you&rsquo;re covered?</h2>
+        <p>We work with most major insurance plans and offer transparent self-pay options. Send us your information and we&rsquo;ll help verify your benefits before your first visit.</p>
+        <div class="ins">
+          <span>Aetna</span><span>Blue Cross Blue Shield</span><span>Cigna</span><span>UnitedHealthcare</span><span>Self-pay</span>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <a href="#contact" class="btn btn-ghost" style="border-color:color-mix(in srgb,var(--paper) 40%,transparent);color:inherit;">Verify my benefits →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Contact us</span>
+      <h2>Take the first step</h2>
+      <p class="lead">Reach out today — a member of our care team will follow up within one business day.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="info-item"><div class="ic">📍</div><div><h3>Visit</h3><p>[123 Wellness Way, Suite 200]<br>[City, State ZIP]</p></div></div>
+        <div class="info-item"><div class="ic">📞</div><div><h3>Call or text</h3><p><a href="tel:+15551234567">(555) 123-4567</a></p></div></div>
+        <div class="info-item"><div class="ic">✉️</div><div><h3>Email</h3><p><a href="mailto:care@serisphere.example">care@serisphere.example</a></p></div></div>
+        <div class="info-item"><div class="ic">🕐</div><div><h3>Hours</h3><p>Mon–Fri 8am–6pm · Sat by appointment<br>Telehealth available statewide</p></div></div>
+        <div class="info-item" style="border-bottom:none;"><div class="ic">🚨</div><div><h3>In crisis?</h3><p>If this is an emergency, call <b>911</b> or dial <b>988</b> (Suicide &amp; Crisis Lifeline).</p></div></div>
+      </div>
+      <form id="bookForm" class="reveal">
+        <div class="row2">
+          <div class="field"><label for="fn">First name</label><input id="fn" name="fn" required></div>
+          <div class="field"><label for="ln">Last name</label><input id="ln" name="ln" required></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="em">Email</label><input id="em" name="em" type="email" required></div>
+          <div class="field"><label for="ph">Phone</label><input id="ph" name="ph" type="tel"></div>
+        </div>
+        <div class="field">
+          <label for="svc">I&rsquo;m interested in</label>
+          <select id="svc" name="svc">
+            <option>Psychiatry &amp; medication management</option>
+            <option>Individual therapy</option>
+            <option>Child &amp; adolescent care</option>
+            <option>Couples &amp; family therapy</option>
+            <option>Integrative &amp; nutrition wellness</option>
+            <option>Not sure — help me decide</option>
+          </select>
+        </div>
+        <div class="field"><label for="msg">How can we help?</label><textarea id="msg" name="msg" placeholder="Share anything you&rsquo;d like us to know (optional)."></textarea></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Request appointment</button>
+        <p class="form-note">By submitting, you agree to be contacted about care. This form does not send protected health information — please don&rsquo;t include sensitive medical details.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" style="margin-bottom:14px;">
+          <svg class="orbit" width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="18.5" fill="none" stroke="var(--ring)" stroke-width="1.4"/>
+            <circle cx="20" cy="20" r="6.4" fill="var(--teal)"/>
+            <circle cx="20" cy="1.5" r="2.6" fill="var(--plum)"/>
+            <circle cx="38.5" cy="24" r="2.2" fill="var(--clay)"/>
+          </svg>
+          <span>Serisphere<small>Behavioral &amp; Integrative Health</small></span>
+        </a>
+        <p style="font-size:14px;color:var(--muted);max-width:320px;">Whole-person mental health and integrative wellness care — for the mind and the body, together.</p>
+      </div>
+      <div><h4>Care</h4><a href="#services">Psychiatry</a><a href="#services">Therapy</a><a href="#services">Integrative wellness</a><a href="#services">Child &amp; adolescent</a></div>
+      <div><h4>Practice</h4><a href="#about">About us</a><a href="#team">Our team</a><a href="#approach">Getting started</a><a href="#contact">Insurance</a></div>
+      <div><h4>Contact</h4><a href="tel:+15551234567">(555) 123-4567</a><a href="mailto:care@serisphere.example">care@serisphere.example</a><a href="#contact">Book online</a></div>
+    </div>
+    <div class="disclaimer">
+      <b>Design concept / demo.</b> This is a sample website mock created for design review — not an official or live site. Content, names, hours, insurance, and contact details are placeholders and should be replaced with verified information before use. Not medical advice.
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="yr"></span> Serisphere Center for Behavioral &amp; Integrative Health</span>
+      <span>Privacy · Terms · Good Faith Estimate · Notice of Privacy Practices</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // mobile nav
+  var burger = document.getElementById('burger'), nav = document.getElementById('nav');
+  burger.addEventListener('click', function(){ nav.classList.toggle('open'); });
+  nav.addEventListener('click', function(e){ if(e.target.tagName==='A') nav.classList.remove('open'); });
+
+  // theme toggle (persist per-viewer, safely)
+  var root = document.documentElement, tbtn = document.getElementById('themeBtn');
+  try{ var saved = localStorage.getItem('seri-theme'); if(saved) root.setAttribute('data-theme', saved); }catch(e){}
+  tbtn.addEventListener('click', function(){
+    var cur = root.getAttribute('data-theme');
+    if(!cur){ cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('seri-theme', next); }catch(e){}
+  });
+
+  // reveal on scroll
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  // booking form -> mailto (placeholder; swap for FormSubmit/Web3Forms/real endpoint)
+  document.getElementById('bookForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target;
+    var subject = encodeURIComponent('Appointment request — ' + f.fn.value + ' ' + f.ln.value);
+    var body = encodeURIComponent(
+      'Name: ' + f.fn.value + ' ' + f.ln.value + '\n' +
+      'Email: ' + f.em.value + '\n' +
+      'Phone: ' + f.ph.value + '\n' +
+      'Interested in: ' + f.svc.value + '\n\n' +
+      'Message:\n' + f.msg.value
+    );
+    window.location.href = 'mailto:care@serisphere.example?subject=' + subject + '&body=' + body;
+  });
+</script>
+</body>
+</html>
