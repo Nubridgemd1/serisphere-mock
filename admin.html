@@ -191,10 +191,16 @@
         <button class="btn btn-ghost btn-sm" id="resetVideos" style="margin-left:8px;">Reset</button>
         <div class="card kit-block" style="margin-top:16px;">
           <h3 id="videoFormTitle">Add / edit video</h3>
-          <input type="hidden" id="vId">
+          <input type="hidden" id="vId"><input type="hidden" id="vSrc"><input type="hidden" id="vFileName">
           <div class="field"><label>Title</label><input id="vTitle"></div>
           <div class="field"><label>Description</label><textarea id="vDesc" style="min-height:60px;"></textarea></div>
-          <div class="field"><label>Video link (YouTube / Vimeo / .mp4)</label><input id="vUrl" type="url" inputmode="url" placeholder="https://youtu.be/…"></div>
+          <div class="field" style="background:var(--paper);border:1px dashed var(--line);border-radius:12px;padding:14px;">
+            <label style="font-size:14px;">⬆ Upload a video from this device</label>
+            <p style="font-size:12.5px;color:var(--muted);margin:2px 0 10px;">Pick a saved video from your phone's gallery or files (or a computer). Stored on this device and played on the website.</p>
+            <input id="vUpload" type="file" accept="video/*">
+            <div id="vFileMsg" class="notice" style="display:none;margin-top:10px;"></div>
+          </div>
+          <div class="field"><label>— or paste a video link (YouTube / Vimeo / .mp4)</label><input id="vUrl" type="url" inputmode="url" placeholder="https://youtu.be/…"></div>
           <button class="btn btn-primary btn-sm" id="saveVideo">Save video</button>
           <button class="btn btn-ghost btn-sm" id="clearVideo">Clear</button>
         </div>
@@ -425,27 +431,40 @@
   /* ---- videos + protocols ---- */
   function initResources(){ renderVideos(); clearVideoForm(); renderProtos(); clearProtoForm(); }
   // videos
+  var pendingVideoFile=null;
+  function vFileMsg(m){var el=document.getElementById('vFileMsg');if(m){el.innerHTML=m;el.style.display='block';}else{el.style.display='none';}}
+  document.getElementById('vUpload').addEventListener('change',function(e){
+    var f=e.target.files&&e.target.files[0]; if(!f){pendingVideoFile=null;vFileMsg('');return;}
+    var mb=f.size/1024/1024;
+    if(mb>200){ pendingVideoFile=null; e.target.value=''; vFileMsg('That video is '+mb.toFixed(0)+' MB — too large for on-device storage. Trim it, or paste a link instead.'); return; }
+    pendingVideoFile=f; vFileMsg('Ready to upload: <b>'+esc(f.name)+'</b> ('+mb.toFixed(1)+' MB)');
+  });
   function renderVideos(){
     var v=SERI.getVideos(), host=document.getElementById('videoList');host.innerHTML='';
     v.forEach(function(x,i){
       var el=document.createElement('div');el.className='list-item';
-      el.innerHTML='<div><div class="t">'+esc(x.title)+'</div><div class="m">'+(x.url?esc(x.url):'no link yet')+'</div></div>';
+      var badge = x.src==='idb' ? ('⬆ uploaded: '+esc(x.fileName||'video')) : (x.url?esc(x.url):'no video yet');
+      el.innerHTML='<div><div class="t">'+esc(x.title)+'</div><div class="m">'+badge+'</div></div>';
       var act=document.createElement('div');act.className='row-actions';
       var e=document.createElement('button');e.className='btn btn-ghost btn-sm';e.textContent='Edit';e.onclick=function(){editVideo(i);};
-      var d=document.createElement('button');d.className='btn btn-ghost btn-sm';d.textContent='Delete';d.onclick=function(){if(confirm('Delete this video?')){var a=SERI.getVideos();a.splice(i,1);SERI.saveVideos(a);renderVideos();toast('Deleted');}};
+      var d=document.createElement('button');d.className='btn btn-ghost btn-sm';d.textContent='Delete';d.onclick=function(){if(confirm('Delete this video?')){var a=SERI.getVideos();var rem=a.splice(i,1)[0];SERI.saveVideos(a);if(rem&&rem.src==='idb'){try{SERI.idbDelVideo(rem.id);}catch(err){}}renderVideos();toast('Deleted');}};
       act.appendChild(e);act.appendChild(d);el.appendChild(act);host.appendChild(el);
     });
   }
-  function editVideo(i){var x=SERI.getVideos()[i];document.getElementById('vId').value=i;document.getElementById('vTitle').value=x.title;document.getElementById('vDesc').value=x.desc;document.getElementById('vUrl').value=x.url||'';window.scrollTo(0,0);}
-  function clearVideoForm(){['vId','vTitle','vDesc','vUrl'].forEach(function(id){document.getElementById(id).value='';});}
+  function editVideo(i){var x=SERI.getVideos()[i];document.getElementById('vId').value=i;document.getElementById('vTitle').value=x.title;document.getElementById('vDesc').value=x.desc||'';document.getElementById('vUrl').value=x.url||'';document.getElementById('vSrc').value=x.src||'';document.getElementById('vFileName').value=x.fileName||'';pendingVideoFile=null;document.getElementById('vUpload').value='';vFileMsg(x.src==='idb'?('Current upload: <b>'+esc(x.fileName||'video')+'</b> — choose a new file to replace it.'):'');window.scrollTo(0,0);}
+  function clearVideoForm(){['vId','vTitle','vDesc','vUrl','vSrc','vFileName'].forEach(function(id){document.getElementById(id).value='';});pendingVideoFile=null;document.getElementById('vUpload').value='';vFileMsg('');}
   document.getElementById('newVideo').onclick=clearVideoForm;
   document.getElementById('clearVideo').onclick=clearVideoForm;
   document.getElementById('saveVideo').onclick=function(){
     var t=document.getElementById('vTitle').value.trim();if(!t){toast('Title required');return;}
-    var obj={id:'v-'+(t.toLowerCase().replace(/[^a-z0-9]+/g,'-')||Date.now()),title:t,desc:document.getElementById('vDesc').value.trim(),url:document.getElementById('vUrl').value.trim()};
     var arr=SERI.getVideos(),idx=document.getElementById('vId').value;
-    if(idx!==''){arr[parseInt(idx,10)]=obj;}else{arr.unshift(obj);}
-    SERI.saveVideos(arr);renderVideos();clearVideoForm();toast('Video saved');
+    var id = idx!=='' ? arr[parseInt(idx,10)].id : ('v-'+(t.toLowerCase().replace(/[^a-z0-9]+/g,'-')||('t'+Date.now())));
+    var obj={id:id,title:t,desc:document.getElementById('vDesc').value.trim(),url:document.getElementById('vUrl').value.trim(),src:document.getElementById('vSrc').value||'',fileName:document.getElementById('vFileName').value||''};
+    function persist(){ if(idx!==''){arr[parseInt(idx,10)]=obj;}else{arr.unshift(obj);} SERI.saveVideos(arr); renderVideos(); clearVideoForm(); toast('Video saved'); }
+    if(pendingVideoFile){
+      toast('Uploading…');
+      SERI.idbPutVideo(id,pendingVideoFile).then(function(){ obj.src='idb'; obj.fileName=pendingVideoFile.name; obj.url=''; persist(); }).catch(function(){ toast('Upload failed — try a smaller file or a link'); });
+    } else { persist(); }
   };
   document.getElementById('resetVideos').onclick=function(){if(confirm('Reset videos to defaults?')){SERI.saveVideos(SERI.DEFAULT_VIDEOS.slice());renderVideos();clearVideoForm();toast('Reset');}};
   // protocols

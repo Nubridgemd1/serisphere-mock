@@ -108,13 +108,24 @@
   var vids=SERI.getVideos(), vg=document.getElementById('vidGrid');
   vids.forEach(function(v){
     var el=document.createElement('div'); el.className='vid card';
-    var emb=embedUrl(v.url);
-    var frame;
+    var body='<div class="body"><h3>'+esc(v.title)+'</h3><p>'+esc(v.desc)+'</p></div>';
+    if(v.src==='idb'){
+      el.innerHTML='<div class="frame"><div class="play"></div><span class="soon">Loading video…</span></div>'+body;
+      vg.appendChild(el);
+      (function(id, frameEl){
+        SERI.idbGetVideo(id).then(function(blob){
+          if(blob){ var u=URL.createObjectURL(blob); frameEl.innerHTML='<video controls preload="metadata" src="'+u+'"></video>'; }
+          else { var s=frameEl.querySelector('.soon'); if(s) s.textContent='Video available on the device it was uploaded from'; }
+        }).catch(function(){ var s=frameEl.querySelector('.soon'); if(s) s.textContent='Video available on the device it was uploaded from'; });
+      })(v.id, el.querySelector('.frame'));
+      return;
+    }
+    var emb=embedUrl(v.url), frame;
     if(emb){ frame='<div class="frame"><iframe src="'+esc(emb)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>'; }
     else if(v.url && /\.(mp4|webm|ogg)$/i.test(v.url)){ frame='<div class="frame"><video controls preload="metadata" src="'+esc(v.url)+'"></video></div>'; }
     else if(v.url){ frame='<a class="frame" href="'+esc(v.url)+'" target="_blank" rel="noopener"><div class="play"></div></a>'; }
     else { frame='<div class="frame"><div class="play"></div><span class="soon">Video coming soon</span></div>'; }
-    el.innerHTML=frame+'<div class="body"><h3>'+esc(v.title)+'</h3><p>'+esc(v.desc)+'</p></div>';
+    el.innerHTML=frame+body;
     vg.appendChild(el);
   });
 

@@ -112,6 +112,10 @@
   function read(key, fallback){ try{ var v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }catch(e){ return fallback; } }
   function write(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); return true; }catch(e){ return false; } }
 
+  // IndexedDB — stores uploaded video/media blobs (large files, on-device)
+  function idbOpen(){ return new Promise(function(res,rej){ try{ var rq=indexedDB.open("seri-media",1); rq.onupgradeneeded=function(){ try{ rq.result.createObjectStore("videos"); }catch(e){} }; rq.onsuccess=function(){ res(rq.result); }; rq.onerror=function(){ rej(rq.error); }; }catch(e){ rej(e); } }); }
+  function idbOp(mode, fn){ return idbOpen().then(function(db){ return new Promise(function(res,rej){ var tx=db.transaction("videos",mode); var rq=fn(tx.objectStore("videos")); tx.oncomplete=function(){ res(rq&&rq.result); }; tx.onabort=tx.onerror=function(){ rej(tx.error); }; }); }); }
+
   const DEFAULT_CONTACT = {
     phone:"(555) 123-4567", email:"care@serisphere.example",
     addr1:"123 Wellness Way, Suite 200", addr2:"City, State ZIP",
@@ -134,6 +138,9 @@
     saveVideos:function(v){ return write("seri-videos", v); },
     getProtocols: function(){ return read("seri-protocols", DEFAULT_PROTOCOLS.slice()); },
     saveProtocols:function(p){ return write("seri-protocols", p); },
+    idbPutVideo:function(id,blob){ return idbOp("readwrite",function(st){ return st.put(blob,id); }); },
+    idbGetVideo:function(id){ return idbOp("readonly", function(st){ return st.get(id); }); },
+    idbDelVideo:function(id){ return idbOp("readwrite",function(st){ return st.delete(id); }); },
     getContact:function(){ var c=read("seri-contact",{}); return Object.assign({},DEFAULT_CONTACT,c); },
     saveContact:function(c){ return write("seri-contact", c); },
     getCred:   function(){ var c=read("seri-cred",{}); return Object.assign({},DEFAULT_CRED,c); },
